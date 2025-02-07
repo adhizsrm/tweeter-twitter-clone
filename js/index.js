@@ -1,7 +1,8 @@
 import { tweetsData } from "./data.js";
 const tweetInput = document.getElementById('tweet-input');
 const tweetBtn = document.getElementById('tweet-btn');
-
+let likeClass = '';
+let retweetClass = '';
 tweetBtn.addEventListener('click',function(){
     console.log(tweetInput.value);
 })
@@ -21,6 +22,7 @@ function handleLikeClick(tweetId){
     })[0];
     if(!targetTweetObj.isLiked){
         targetTweetObj.likes++;
+        likeClass = 'liked';
     }
     else {
         targetTweetObj.likes--;
@@ -35,6 +37,7 @@ function handleRetweetClick(tweetId){
     })[0];
     if(!targetTweetObj.isRetweeted){
         targetTweetObj.retweets++;
+        retweetClass = 'retweeted';
     }
     else {
         targetTweetObj.retweets--;
@@ -46,6 +49,14 @@ function handleRetweetClick(tweetId){
 function getFeedHtml(){
     let feedHtml = ``;
     tweetsData.forEach(function(tweet){
+        let likeClass = ``;
+        let retweetClass = ``;
+        if(tweet.isLiked){
+            likeClass = `liked`
+        }
+        if(tweet.isRetweeted){
+            retweetClass = `retweeted`;
+        }
         feedHtml += 
         `
             <div class="tweet">
@@ -60,11 +71,11 @@ function getFeedHtml(){
                             ${tweet.replies.length}
                         </span>
                         <span class="tweet-detail">
-                            <i class="fa-solid fa-heart" data-like="${tweet.uuid}"></i>
+                            <i class="fa-solid fa-heart ${likeClass}" data-like="${tweet.uuid}"></i>
                             ${tweet.likes}
                         </span>
                         <span class="tweet-detail">
-                            <i class="fa-solid fa-retweet" data-retweet="${tweet.uuid}"></i>
+                            <i class="fa-solid fa-retweet ${retweetClass}" data-retweet="${tweet.uuid}"></i>
                             ${tweet.retweets}
                         </span>
                     </div>   
