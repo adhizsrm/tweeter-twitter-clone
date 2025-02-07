@@ -18,13 +18,11 @@ function handleLikeClick(tweetId){
     })[0];
     if(!targetTweetObj.isLiked){
         targetTweetObj.likes++;
-        targetTweetObj.isLiked = true;    
     }
     else {
         targetTweetObj.likes--;
-        targetTweetObj.isLiked = false;
     }
-    
+    targetTweetObj.isLiked = !(targetTweetObj.isLiked);
     render();
 }
 
