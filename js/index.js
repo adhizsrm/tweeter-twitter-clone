@@ -24,7 +24,6 @@ function handleLikeClick(tweetId){
     })[0];
     if(!targetTweetObj.isLiked){
         targetTweetObj.likes++;
-        likeClass = 'liked';
     }
     else {
         targetTweetObj.likes--;
@@ -39,7 +38,6 @@ function handleRetweetClick(tweetId){
     })[0];
     if(!targetTweetObj.isRetweeted){
         targetTweetObj.retweets++;
-        retweetClass = 'retweeted';
     }
     else {
         targetTweetObj.retweets--;
@@ -53,7 +51,8 @@ function handleReplyClick(replyId){
 }
 
 function handleTweetBtnClick(){
-    tweetsData.unshift({
+    if(tweetInput.value){
+        tweetsData.unshift({
         handle: `@Tweeter`,
         profilePic: `images/scrimbalogo.png`,
         likes: 0,
@@ -63,8 +62,11 @@ function handleTweetBtnClick(){
         isLiked: false,
         isRetweeted: false,
         uuid: uuidv4()
-    });
-    render();
+        });
+        render();
+         tweetInput.value = "";
+    }
+
 }
 
 function getFeedHtml(){
