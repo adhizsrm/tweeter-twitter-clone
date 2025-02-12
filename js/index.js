@@ -1,8 +1,17 @@
+// Importing tweet data from an external file
 import { tweetsData } from "./data.js";
+
+// Function to generate a unique UUID using the built-in crypto API
 function uuidv4() {
     return crypto.randomUUID();
 }
+
+// Getting the tweet input field from the DOM
 const tweetInput = document.getElementById('tweet-input');
+
+// Event listener for handling various click events
+// Checks if the clicked element has a dataset attribute and calls the corresponding function
+// Handles like, retweet, reply, and tweet button clicks
 document.addEventListener('click', function(e){
     if(e.target.dataset.like){
         handleLikeClick(e.target.dataset.like);
@@ -14,10 +23,12 @@ document.addEventListener('click', function(e){
         handleReplyClick(e.target.dataset.reply);
     }
     else if(e.target.id === 'tweet-btn'){
-        handleTweetBtnClick()
+        handleTweetBtnClick();
     }
-})
+});
 
+// Function to handle liking a tweet
+// Finds the tweet by its UUID and toggles the like state
 function handleLikeClick(tweetId){
     const targetTweetObj = tweetsData.filter(function(tweet){
         return tweet.uuid === tweetId;
@@ -29,9 +40,11 @@ function handleLikeClick(tweetId){
         targetTweetObj.likes--;
     }
     targetTweetObj.isLiked = !(targetTweetObj.isLiked);
-    render();
+    render(); // Re-renders the feed
 }
 
+// Function to handle retweeting a tweet
+// Finds the tweet by its UUID and toggles the retweet state
 function handleRetweetClick(tweetId){
     const targetTweetObj = tweetsData.filter(function(tweet){
         return tweet.uuid === tweetId;
@@ -43,13 +56,16 @@ function handleRetweetClick(tweetId){
         targetTweetObj.retweets--;
     }
     targetTweetObj.isRetweeted = !targetTweetObj.isRetweeted;
-    render();
+    render(); // Re-renders the feed
 }
 
+// Function to toggle the visibility of replies for a tweet
 function handleReplyClick(replyId){
     document.getElementById(`replies-${replyId}`).classList.toggle('hidden');
 }
 
+// Function to handle tweet submission
+// Creates a new tweet object and adds it to the tweetsData array
 function handleTweetBtnClick(){
     if(tweetInput.value){
         tweetsData.unshift({
@@ -64,11 +80,12 @@ function handleTweetBtnClick(){
         uuid: uuidv4()
         });
         render();
-         tweetInput.value = "";
+        tweetInput.value = "";
     }
 
 }
 
+// Function to generate HTML for the tweet feed
 function getFeedHtml(){
     let feedHtml = ``;
     tweetsData.forEach(function(tweet){
@@ -130,8 +147,10 @@ function getFeedHtml(){
     return feedHtml;
 }
 
+// Function to render the tweets on the page
 function render(){
-    document.getElementById('feed').innerHTML = getFeedHtml()
+    document.getElementById('feed').innerHTML = getFeedHtml();
 
 }
+// Initial render call, tweets page on load
 render();
