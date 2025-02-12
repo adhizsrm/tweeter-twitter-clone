@@ -57,6 +57,9 @@ function getFeedHtml(){
         if(tweet.isRetweeted){
             retweetClass = `retweeted`;
         }
+        if(tweet.replies.length > 0) {
+            console.log(tweet.uuid);
+        }
         feedHtml += 
         `
             <div class="tweet">
