@@ -6,6 +6,11 @@ function uuidv4() {
     return crypto.randomUUID();
 }
 
+// Function to escape HTML to prevent XSS attacks
+function escapeHTML(str) {
+    return str.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+
 // Getting the tweet input field from the DOM
 const tweetInput = document.getElementById('tweet-input');
 
@@ -73,7 +78,7 @@ function handleTweetBtnClick(){
         profilePic: `images/scrimbalogo.png`,
         likes: 0,
         retweets: 0,
-        tweetText: tweetInput.value,
+        tweetText: escapeHTML(tweetInput.value),
         replies: [],
         isLiked: false,
         isRetweeted: false,
@@ -82,7 +87,6 @@ function handleTweetBtnClick(){
         render();
         tweetInput.value = "";
     }
-
 }
 
 // Function to generate HTML for the tweet feed
@@ -107,7 +111,7 @@ function getFeedHtml(){
                             <img src="${reply.profilePic}" class="profile-pic">
                             <div>
                                 <p class="handle">${reply.handle}</p>
-                                <p class="tweet-text">${reply.tweetText}</p>
+                                <p class="tweet-text">${escapeHTML(reply.tweetText)}</p>
                             </div>
                         </div>
                     </div>
@@ -121,7 +125,7 @@ function getFeedHtml(){
                 <img src="${tweet.profilePic}" class="profile-pic">
                 <div>
                     <p class="handle">${tweet.handle}</p>
-                    <p class="tweet-text">${tweet.tweetText}</p>
+                    <p class="tweet-text">${escapeHTML(tweet.tweetText)}</p>
                     <div class="tweet-details">
                         <span class="tweet-detail">
                             <i class="fa-regular fa-comment-dots" data-reply="${tweet.uuid}"></i>
