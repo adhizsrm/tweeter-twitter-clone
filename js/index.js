@@ -93,14 +93,8 @@ function handleTweetBtnClick(){
 function getFeedHtml(){
     let feedHtml = ``;
     tweetsData.forEach(function(tweet){
-        let likeClass = ``;
-        let retweetClass = ``;
-        if(tweet.isLiked){
-            likeClass = `liked`
-        }
-        if(tweet.isRetweeted){
-            retweetClass = `retweeted`;
-        }
+        let likeClass = tweet.isLiked ? `liked` : ``;
+        let retweetClass = tweet.isRetweeted ? `retweeted` : ``;
         let repliesHtml = ``;
         if(tweet.replies.length > 0) {
             tweet.replies.forEach(function(reply){
